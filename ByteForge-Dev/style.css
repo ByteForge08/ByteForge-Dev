@@ -1,0 +1,223 @@
+:root {
+    --bg-deep: #1A2B3A;
+    --bg-main: #283F52;
+    --bg-card: #334E68;
+    --accent: #38BDF8;
+    --success: #10B981;
+    --error: #ef4444;
+    --text-white: #F1F5F9;
+    --text-dim: #94A3B8;
+    --warning: #FBBF24;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.2s ease; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-deep);
+    background-image: linear-gradient(135deg, var(--bg-deep) 0%, var(--bg-main) 100%);
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start;
+    min-height: 100vh; 
+    padding-top: 40px;
+}
+
+a:has(.creator-icon) {
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    z-index: 10;
+}
+
+.creator-icon {
+    height: 80px;
+    width: auto;
+    border-radius: 50%;
+    border: 2px solid transparent; 
+    object-fit: cover;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.creator-icon:hover { 
+    transform: scale(1.05); 
+    border-color: var(--accent);
+    filter: drop-shadow(0 6px 15px rgba(56, 189, 248, 0.4));
+}
+
+@media (max-width: 950px) {
+    a:has(.creator-icon) {
+        position: relative;
+        left: 0;
+        top: 0;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+.site-logo {
+    height: 200px;
+    width: auto;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.6));
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    .site-logo {
+        height: 140px;
+        margin-bottom: 25px;
+    }
+}
+
+.container {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem; 
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    width: 90%; 
+    max-width: 480px;
+    z-index: 2;
+    position: relative;
+}
+
+.mode-selector { display: flex; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 12px; margin-bottom: 20px; }
+.mode-btn { flex: 1; padding: 8px; border: none; background: none; color: var(--text-dim); font-weight: 700; cursor: pointer; border-radius: 8px; }
+.mode-btn.active { background: var(--accent); color: var(--bg-deep); }
+
+/* Ajustado para 4 colunas para caber as 7 abas sem clonar/encavalar */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px; }
+.tab { padding: 10px 2px; cursor: pointer; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); text-align: center; border-radius: 10px; background: rgba(0,0,0,0.1); }
+.tab.active { background: rgba(255,255,255,0.1); color: var(--accent); }
+
+/* Incluído o #state-selector na regra de estilo dos selects */
+#brand-selector, #pass-length-selector, #state-selector { 
+    width: 100%; padding: 12px; background: #1A2B3A; border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 12px; color: white; margin-bottom: 15px; outline: none; display: none; 
+    font-family: inherit; font-weight: 600; 
+}
+
+.display-box { background: #1A2B3A; border-radius: 20px; margin-bottom: 1.5rem; border: 2px solid rgba(255,255,255,0.05); overflow: hidden; }
+.display-box input { width: 100%; background: transparent; border: none; padding: 1.5rem; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; text-align: center; outline: none; }
+
+.result-msg { padding: 10px; text-align: center; font-weight: 700; font-size: 0.9rem; display: none; background: rgba(0,0,0,0.2); }
+
+.btn-main { width: 100%; padding: 16px; background: var(--accent); color: #1A2B3A; border: none; border-radius: 16px; font-weight: 800; cursor: pointer; margin-bottom: 10px; }
+.btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.footer { margin-top: 1.5rem; font-size: 0.7rem; color: var(--text-dim); text-align: center; }
+.footer b { color: var(--accent); }
+
+.disclaimer { max-width: 480px; margin: 25px auto; padding: 15px 20px; background: rgba(0, 0, 0, 0.2); border-left: 4px solid var(--warning); border-radius: 12px; font-size: 0.75rem; color: var(--text-dim); line-height: 1.5; backdrop-filter: blur(10px); }
+.disclaimer b { color: var(--warning); display: block; margin-bottom: 4px; }
+
+.github-footer-link {
+    position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; z-index: 10; padding: 8px 12px; background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.github-footer-link:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.github-footer-link img { height: 20px; width: auto; }
+
+@media (max-width: 600px) {
+    .github-footer-link { bottom: 10px; left: 10px; font-size: 0.7rem; }
+    .tabs { grid-template-columns: repeat(3, 1fr); }
+}
+
+
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: 28px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+}
+
+.modal-header h2 { margin-bottom: 1rem; color: var(--accent); }
+.modal-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+.modal-content p { 
+    font-size: 0.9rem; 
+    line-height: 1.6; 
+    color: var(--text-dim); 
+    margin-bottom: 1.5rem; 
+}
+
+.modal-content b { color: var(--text-white); }
+
+.modal-actions { display: flex; gap: 15px; }
+
+.btn-accept, .btn-reject { 
+    flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none; 
+}
+
+.btn-accept { background: var(--accent); color: var(--bg-deep); }
+.btn-reject { background: transparent; border: 1px solid var(--error); color: var(--error); }
+
+.btn-accept:hover { filter: brightness(1.2); transform: scale(1.02); }
+.btn-reject:hover { background: var(--error); color: white; }
+
+/* Efeito de entrada suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal Estilizado com Animação */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    display: none; /* O JS vai mudar para 'flex' */
+    align-items: center; justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: 28px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: 28px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    
+    /* Aplica a animação */
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* Restante dos estilos dos botões (btn-accept e btn-reject) permanecem os mesmos do anterior */
