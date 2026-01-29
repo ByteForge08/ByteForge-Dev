@@ -170,7 +170,6 @@ a:has(.creator-icon) {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- AQUI ESTÁ O QUE VOCÊ PEDIU --- */
 .secondary-group {
     display: flex;
     gap: 10px;
@@ -182,9 +181,9 @@ a:has(.creator-icon) {
     padding: 14px;
     background: transparent;
     color: var(--text-white);
-    /* Borda branca nítida como a do botão LIMPAR */
+    
     border: 1px solid rgba(255, 255, 255, 0.5); 
-    border-radius: 25px; /* Deixei mais arredondado como na sua imagem */
+    border-radius: 25px;
     font-weight: 800;
     cursor: pointer;
     font-family: inherit;
@@ -198,3 +197,4 @@ a:has(.creator-icon) {
     color: var(--accent);
     background: rgba(255, 255, 255, 0.05);
 }
+
