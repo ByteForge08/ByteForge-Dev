@@ -1,12 +1,9 @@
 let currentOperation = 'gen';
 let currentType = 'cpf';
 
-// Controle do Modal de Termos - Sempre aparece ao carregar
 window.onload = function() {
     const modal = document.getElementById('terms-modal');
     modal.style.display = 'flex';
-    
-    // Pequeno delay para a transição de opacidade (fade-in) funcionar
     setTimeout(() => {
         modal.style.opacity = '1';
     }, 50);
@@ -14,17 +11,17 @@ window.onload = function() {
 
 function acceptTerms() {
     const modal = document.getElementById('terms-modal');
-    modal.style.opacity = '0'; // Suaviza a saída
-    
+    modal.opacity = '0';
     setTimeout(() => {
         modal.style.display = 'none';
-    }, 500); // Tempo da transição de saída
+    }, 500);
 }
 
 function rejectTerms() {
     alert("Você precisa aceitar os termos para utilizar a ferramenta.");
     window.location.href = "https://google.com";
 }
+
 const mapaEstados = {
     "01": "SP", "02": "MG", "03": "RJ", "04": "RS", "05": "BA", "06": "PR", "07": "CE",
     "08": "PE", "09": "SC", "10": "GO", "11": "MA", "12": "PB", "13": "PA", "14": "ES",
@@ -49,7 +46,6 @@ const faixasCEP = [
     { uf: "RS", min: 90000000, max: 99999999 }
 ];
 
-// Listener para resetar a mensagem ao digitar
 document.getElementById('main-input').addEventListener('input', function() {
     document.getElementById('result-label').style.display = "none";
 });
@@ -57,22 +53,21 @@ document.getElementById('main-input').addEventListener('input', function() {
 function setMode(m) {
     currentOperation = m;
     
-    // 1. Lida com o visual dos botões de cima (Gerar/Validar)
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    const botoes = document.querySelectorAll('.mode-btn');
+    m === 'gen' ? botoes[0].classList.add('active') : botoes[1].classList.add('active');
     
-    // 2. PEGA O BOTAO AZUL PELO ID
     const botaoAzul = document.getElementById('action-btn');
-    const botaoSecundario = document.getElementById('secondary-btn');
+    const botaoColar = document.getElementById('btn-colar');
+    const botaoSecundario = document.getElementById('btn-secundario');
 
-    // 3. TROCA O NOME BASEADO NO MODO
     if (m === 'val') {
-        // MODO VALIDAR
-        botaoAzul.innerText = "COLAR"; 
+        botaoAzul.innerText = "VALIDAR AGORA"; 
+        botaoColar.style.display = "block";
         botaoSecundario.innerText = "LIMPAR";
     } else {
-        // MODO GERAR
         botaoAzul.innerText = "GERAR AGORA";
+        botaoColar.style.display = "none";
         botaoSecundario.innerText = "COPIAR";
     }
     
@@ -110,77 +105,25 @@ function updateTitle() {
     document.getElementById('title').innerText = `${opName} de ${currentType.toUpperCase()}`;
 }
 
-// Ação do Botão Azul (action-btn)
-async function execute() {
-    const input = document.getElementById('main-input');
-    
-    if (currentOperation === 'gen') {
-        // Se estiver no modo GERAR, ele executa a geração normal
-        generate();
-    } else {
-        // MODO VALIDAR: O botão agora é COLAR
-        try {
-            // Tenta ler o texto da área de transferência do usuário
-            const text = await navigator.clipboard.readText();
-            
-            if (text) {
-                input.value = text.trim(); // Coloca o texto no campo
-                validate(); // Chama a validação na mesma hora!
-            }
-        } catch (err) {
-            // Se o navegador bloquear o acesso (permissão), 
-            // ele apenas valida o que já estiver escrito no campo.
-            console.error("Erro ao ler área de transferência: ", err);
+async function pasteData() {
+    try {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+            document.getElementById('main-input').value = text.trim();
             validate();
         }
+    } catch (err) {
+        console.error("Erro ao colar: ", err);
     }
 }
 
-// Função de Validação (Garante que a mensagem apareça corretamente)
-function validate() {
-    const raw = document.getElementById('main-input').value;
-    const label = document.getElementById('result-label');
-    
-    if (!raw) {
-        label.style.display = "block";
-        label.innerText = "✕ CAMPO VAZIO";
-        label.style.color = "#ef4444";
-        return;
+async function execute() {
+    if (currentOperation === 'gen') {
+        generate();
+    } else {
+        validate();
     }
-    
-    // Limpa apenas números para validar (exceto RG que pode ter X)
-    const clean = raw.replace(/\D/g, '');
-    let isValid = false;
-    let message = "";
-
-    // Lógica por tipo
-    switch(currentType) {
-        case 'cpf':
-            isValid = validarCPF(clean);
-            message = isValid ? "✓ CPF VÁLIDO" : "✕ CPF INVÁLIDO";
-            break;
-        case 'cep':
-            // Verifica se tem 8 dígitos
-            isValid = clean.length === 8;
-            message = isValid ? "✓ CEP VÁLIDO" : "✕ CEP INVÁLIDO";
-            break;
-        case 'cnpj':
-            isValid = clean.length === 14; // Adicione sua função de CNPJ aqui se tiver
-            message = isValid ? "✓ CNPJ VÁLIDO" : "✕ CNPJ INVÁLIDO";
-            break;
-        // Adicione os outros cases (rg, titulo, etc) conforme sua necessidade
-        default:
-            isValid = clean.length >= 5;
-            message = isValid ? "✓ FORMATO VÁLIDO" : "✕ FORMATO INVÁLIDO";
-    }
-
-    // Exibe o resultado na tela
-    label.style.display = "block";
-    label.innerText = message;
-    label.style.color = isValid ? "#22c55e" : "#ef4444";
 }
-
-// --- GERAÇÃO ---
 
 function genRG() {
     const r = () => Math.floor(Math.random() * 9);
@@ -222,16 +165,18 @@ function generate() {
     document.getElementById('result-label').style.display = "none";
 }
 
-// --- VALIDAÇÃO ---
-
 function validate() {
     const raw = document.getElementById('main-input').value;
     const label = document.getElementById('result-label');
-    if(!raw) return;
+    if (!raw) {
+        label.style.display = "block";
+        label.innerText = "✕ CAMPO VAZIO";
+        label.style.color = "#ef4444";
+        return;
+    }
     const clean = raw.replace(/\D/g, '');
     const rgLimpo = raw.replace(/[^0-9X]/gi, '').toUpperCase();
     let message = "", color = "";
-
     switch(currentType) {
         case 'rg':
             if (rgLimpo.length === 9) {
@@ -243,16 +188,16 @@ function validate() {
                 if (dvCalc === dvIn) {
                     message = `✓ RG VÁLIDO (${mapaEstados[rgLimpo.substring(0,2)] || 'UF?'})`;
                     color = "#22c55e";
-                } else { message = "✕ RG INVÁLIDO (Matemática Errada)"; color = "#ef4444"; }
-            } else { message = "✕ FORMATO INVÁLIDO (Use 9 dígitos)"; color = "#ef4444"; }
+                } else { message = "✕ RG INVÁLIDO"; color = "#ef4444"; }
+            } else { message = "✕ FORMATO INVÁLIDO"; color = "#ef4444"; }
             break;
         case 'titulo':
             if (clean.length === 12) {
                 const codUF = clean.substring(8, 10);
                 const uf = mapaEstados[codUF];
-                message = uf ? `✓ TÍTULO VÁLIDO (${uf})` : "✕ CÓDIGO ESTADO INVÁLIDO";
+                message = uf ? `✓ TÍTULO VÁLIDO (${uf})` : "✕ UF INVÁLIDA";
                 color = uf ? "#22c55e" : "#ef4444";
-            } else { message = "✕ TÍTULO DEVE TER 12 DÍGITOS"; color = "#ef4444"; }
+            } else { message = "✕ TÍTULO INVÁLIDO"; color = "#ef4444"; }
             break;
         case 'cpf':
             const v = validarCPF(clean);
@@ -278,18 +223,18 @@ function validate() {
     label.style.color = color;
 }
 
-// --- AUXILIARES ---
-function copyOrPaste() {
+function copyOrClear() {
     const input = document.getElementById('main-input');
-    const b = document.getElementById('secondary-btn');
+    const b = document.getElementById('btn-secundario');
     
-    if(currentOperation === 'gen') {
-        if(!input.value) return;
-        input.select(); document.execCommand('copy');
-        let old = b.innerText; b.innerText = "COPIADO!";
-        setTimeout(() => b.innerText = old, 1200);
+    if (currentOperation === 'gen') {
+        if (!input.value || input.value === "---") return;
+        input.select();
+        document.execCommand('copy');
+        const textoOriginal = b.innerText;
+        b.innerText = "COPIADO!";
+        setTimeout(() => { b.innerText = textoOriginal; }, 1200);
     } else {
-        // MODO VALIDADOR: Função de Limpar
         input.value = ""; 
         document.getElementById('result-label').style.display = "none";
         input.focus();
