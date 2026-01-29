@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteForge Dev</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="terms-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Termos de Uso</h2>
+        </div>
+        <p>Esta ferramenta foi desenvolvida exclusivamente para <b>testes de software e fins educacionais</b>.</p>
+        <p>O uso de dados gerados para atividades ilícitas, fraudes ou má fé é crime conforme o <b>Art. 299 do Código Penal</b> (Falsidade Ideológica) e <b>Art. 171</b> (Estelionato). 
+        A utilização é de <b>total responsabilidade do usuário</b>, isentando o criador e o site de qualquer uso indevido.</p>
+        <div class="modal-actions">
+            <button onclick="rejectTerms()" class="btn-reject">REJEITAR</button>
+            <button onclick="acceptTerms()" class="btn-accept">CONCORDAR</button>
+        </div>
+    </div>
+</div>
+    <a href="https://github.com/ByteForge08" target="_blank">
+        <img src="icon.png" alt="Criador" class="creator-icon">
+    </a>
+
+    <div class="header-logo">
+        <img src="logo.png" alt="ByteForge Dev" class="site-logo">
+    </div>
+
+    <div class="container">
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('gen')">GERAR</button>
+            <button class="mode-btn" onclick="setMode('val')">VALIDAR</button>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-type="cpf" onclick="switchTab(this)">CPF</div>
+            <div class="tab" data-type="cnpj" onclick="switchTab(this)">CNPJ</div>
+            <div class="tab" data-type="rg" onclick="switchTab(this)">RG</div>
+            <div class="tab" data-type="titulo" onclick="switchTab(this)">TÍTULO</div>
+            <div class="tab" data-type="cc" onclick="switchTab(this)">CARD</div>
+            <div class="tab" data-type="cep" onclick="switchTab(this)">CEP</div>
+            <div class="tab" data-type="pass" onclick="switchTab(this)">SENHA</div>
+        </div>
+
+        <h1 id="title" style="text-align: center; font-size: 1.1rem; margin-bottom: 1rem;">Gerador de CPF</h1>
+
+        <select id="brand-selector">
+            <option value="visa">Visa</option>
+            <option value="master">Mastercard</option>
+            <option value="amex">American Express</option>
+            <option value="elo">Elo</option>
+            <option value="hiper">Hipercard</option>
+        </select>
+
+        <select id="state-selector">
+            <option value="AC">AC - Acre</option>
+            <option value="AL">AL - Alagoas</option>
+            <option value="AP">AP - Amapá</option>
+            <option value="AM">AM - Amazonas</option>
+            <option value="BA">BA - Bahia</option>
+            <option value="CE">CE - Ceará</option>
+            <option value="DF">DF - Distrito Federal</option>
+            <option value="ES">ES - Espírito Santo</option>
+            <option value="GO">GO - Goiás</option>
+            <option value="MA">MA - Maranhão</option>
+            <option value="MT">MT - Mato Grosso</option>
+            <option value="MS">MS - Mato Grosso do Sul</option>
+            <option value="MG">MG - Minas Gerais</option>
+            <option value="PA">PA - Pará</option>
+            <option value="PB">PB - Paraíba</option>
+            <option value="PR">PR - Paraná</option>
+            <option value="PE">PE - Pernambuco</option>
+            <option value="PI">PI - Piauí</option>
+            <option value="RJ">RJ - Rio de Janeiro</option>
+            <option value="RN">RN - Rio Grande do Norte</option>
+            <option value="RS">RS - Rio Grande do Sul</option>
+            <option value="RO">RO - Rondônia</option>
+            <option value="RR">RR - Roraima</option>
+            <option value="SC">SC - Santa Catarina</option>
+            <option value="SP">SP - São Paulo</option>
+            <option value="SE">SE - Sergipe</option>
+            <option value="TO">TO - Tocantins</option>
+        </select>
+
+        <select id="pass-length-selector">
+            <option value="8">8 Dígitos</option>
+            <option value="12">12 Dígitos</option>
+            <option value="16" selected>16 Dígitos</option>
+            <option value="20">20 Dígitos</option>
+            <option value="24">24 Dígitos</option>
+            <option value="32">32 Dígitos</option>
+        </select>
+
+        <div class="display-box">
+            <input type="text" id="main-input" placeholder="---" readonly>
+            <div id="result-label" class="result-msg"></div>
+        </div>
+
+        <button class="btn-main" id="action-btn" onclick="execute()">GERAR AGORA</button>
+        <button class="btn-main" style="background:transparent; border:1px solid var(--text-dim); color:var(--text-white)" onclick="copyOrPaste()" id="secondary-btn">COPIAR</button>
+
+        <div class="footer">
+            &copy; 2024 <b>ByteForge Dev</b>.
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <b>⚠️ Termos de Uso:</b>
+        Esta ferramenta foi desenvolvida para <b>testes de software e fins educacionais</b>. Os dados são fictícios e gerados por algoritmos. O uso para atividades ilícitas é proibido e de total responsabilidade do usuário.
+    </div>
+
+    <a href="https://github.com/ByteForge08" target="_blank" class="github-footer-link">
+        <img src="git.png" alt="GitHub">
+        <span>ByteForge08</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
