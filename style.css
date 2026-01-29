@@ -92,12 +92,10 @@ a:has(.creator-icon) {
 .mode-btn { flex: 1; padding: 8px; border: none; background: none; color: var(--text-dim); font-weight: 700; cursor: pointer; border-radius: 8px; }
 .mode-btn.active { background: var(--accent); color: var(--bg-deep); }
 
-/* Ajustado para 4 colunas para caber as 7 abas sem clonar/encavalar */
 .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px; }
 .tab { padding: 10px 2px; cursor: pointer; font-size: 0.6rem; font-weight: 800; color: var(--text-dim); text-align: center; border-radius: 10px; background: rgba(0,0,0,0.1); }
 .tab.active { background: rgba(255,255,255,0.1); color: var(--accent); }
 
-/* Incluído o #state-selector na regra de estilo dos selects */
 #brand-selector, #pass-length-selector, #state-selector { 
     width: 100%; padding: 12px; background: #1A2B3A; border: 1px solid rgba(255,255,255,0.1); 
     border-radius: 12px; color: white; margin-bottom: 15px; outline: none; display: none; 
@@ -132,57 +130,13 @@ a:has(.creator-icon) {
     .tabs { grid-template-columns: repeat(3, 1fr); }
 }
 
-
-
-.modal-content {
-    background: var(--bg-card);
-    padding: 2.5rem;
-    border-radius: 28px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-}
-
-.modal-header h2 { margin-bottom: 1rem; color: var(--accent); }
-.modal-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
-
-.modal-content p { 
-    font-size: 0.9rem; 
-    line-height: 1.6; 
-    color: var(--text-dim); 
-    margin-bottom: 1.5rem; 
-}
-
-.modal-content b { color: var(--text-white); }
-
-.modal-actions { display: flex; gap: 15px; }
-
-.btn-accept, .btn-reject { 
-    flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none; 
-}
-
-.btn-accept { background: var(--accent); color: var(--bg-deep); }
-.btn-reject { background: transparent; border: 1px solid var(--error); color: var(--error); }
-
-.btn-accept:hover { filter: brightness(1.2); transform: scale(1.02); }
-.btn-reject:hover { background: var(--error); color: white; }
-
-/* Efeito de entrada suave */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Modal Estilizado com Animação */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; 
     width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(12px);
-    display: none; /* O JS vai mudar para 'flex' */
+    display: none;
     align-items: center; justify-content: center;
     z-index: 9999;
     opacity: 0;
@@ -201,23 +155,46 @@ a:has(.creator-icon) {
     animation: fadeIn 0.6s ease forwards;
 }
 
+.modal-header h2 { margin-bottom: 1rem; color: var(--accent); }
+.modal-content p { font-size: 0.9rem; line-height: 1.6; color: var(--text-dim); margin-bottom: 1.5rem; }
+.modal-content b { color: var(--text-white); }
+.modal-actions { display: flex; gap: 15px; }
+.btn-accept, .btn-reject { flex: 1; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; border: none; }
+.btn-accept { background: var(--accent); color: var(--bg-deep); }
+.btn-reject { background: transparent; border: 1px solid var(--error); color: var(--error); }
+.btn-accept:hover { filter: brightness(1.2); transform: scale(1.02); }
+.btn-reject:hover { background: var(--error); color: white; }
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.modal-content {
-    background: var(--bg-card);
-    padding: 2.5rem;
-    border-radius: 28px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-    
-    /* Aplica a animação */
-    animation: fadeIn 0.6s ease forwards;
+/* --- AQUI ESTÁ O QUE VOCÊ PEDIU --- */
+.secondary-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-/* Restante dos estilos dos botões (btn-accept e btn-reject) permanecem os mesmos do anterior */
+.btn-sec {
+    flex: 1;
+    padding: 14px;
+    background: transparent;
+    color: var(--text-white);
+    /* Borda branca nítida como a do botão LIMPAR */
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+    border-radius: 25px; /* Deixei mais arredondado como na sua imagem */
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-sec:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+}
