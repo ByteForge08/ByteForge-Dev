@@ -96,12 +96,16 @@
         </select>
 
         <div class="display-box">
-            <input type="text" id="main-input" placeholder="---" readonly>
+            <input type="text" id="main-input" placeholder="---">
             <div id="result-label" class="result-msg"></div>
         </div>
 
         <button class="btn-main" id="action-btn" onclick="execute()">GERAR AGORA</button>
-        <button class="btn-main" style="background:transparent; border:1px solid var(--text-dim); color:var(--text-white)" onclick="copyOrPaste()" id="secondary-btn">COPIAR</button>
+        
+        <div class="secondary-group">
+    <button class="btn-sec" id="btn-colar" style="display:none;" onclick="pasteData()">COLAR</button>
+    <button class="btn-sec" id="btn-secundario" onclick="copyOrClear()">COPIAR</button>
+</div>
 
         <div class="footer">
             &copy; 2024 <b>ByteForge Dev</b>.
